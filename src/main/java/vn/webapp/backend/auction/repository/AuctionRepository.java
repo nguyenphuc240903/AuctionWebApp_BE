@@ -15,9 +15,12 @@ public interface AuctionRepository extends JpaRepository<Auction, Integer> {
     @Query("SELECT a FROM Auction a WHERE a.startDate >= :startday AND a.endDate <= :endday")
     List<Auction> findAuctionSortByBetweenStartdayAndEndday(@Param("startday") Timestamp startday, @Param("endday") Timestamp endday);
 
-    List<Auction> findAuctionByNameContaining(String auctionName);
+    @Query("SELECT a FROM Auction a WHERE :auctionName = '' OR a.name LIKE %:auctionName%")
+    List<Auction> findAuctionByNameContaining(@Param("auctionName") String auctionName);
 
-    //    Page<Auction> findByState(AuctionState auctionState, Pageable pageable, Integer categoryId);
+    List<Auction> findTop3ByStateInOrderByFirstPriceDesc(List<AuctionState> states);
+
+//        Page<Auction> findByState(AuctionState auctionState, Pageable pageable, Integer categoryId);
 //    @Query("SELECT a FROM Auction a WHERE (a.state = :auctionState) " +
 //            "AND (:categoryId = 0 OR a.jewelry.category.id = :categoryId)")
 //    Page<Auction> findByStateAndCategory(
@@ -25,6 +28,9 @@ public interface AuctionRepository extends JpaRepository<Auction, Integer> {
 //            Pageable pageable,
 //            @Param("categoryId") Integer categoryId
 //    );
+
+    @Query("SELECT a FROM Auction a WHERE a.state = :auctionState")
+    List<Auction> findByState(@Param("auctionState") AuctionState auctionState);
 
     @Query("SELECT a FROM Auction a WHERE " +
             "((:auctionState = 'DELETED' AND a.state != 'DELETED') " +
@@ -37,5 +43,5 @@ public interface AuctionRepository extends JpaRepository<Auction, Integer> {
     );
 
 
-
+    Page<Auction> findByStateIn(List<AuctionState> states, Pageable pageable);
 }
