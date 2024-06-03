@@ -3,6 +3,7 @@ package vn.webapp.backend.auction.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vn.webapp.backend.auction.enums.AccountState;
@@ -60,6 +61,16 @@ public class AuctionServiceImpl implements AuctionService{
 
 
         return auctionRepository.findAuctionSortByBetweenStartdayAndEndday(timestampStartDate1, timestampEndDate2);
+    }
+
+    @Override
+    public Page<Auction> getByStaffID(Integer id, Pageable pageable) {
+        return auctionRepository.findByStaffID(id, pageable);
+    }
+
+    @Override
+    public List<Auction> getAuctionByJewelryId(Integer id) {
+        return auctionRepository.findAuctionByJewelryId(id);
     }
 
 

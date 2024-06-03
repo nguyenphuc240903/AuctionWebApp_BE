@@ -20,4 +20,11 @@ public interface JewelryService {
     List<Jewelry> getJeweriesByNameContain(String key);
 
     Page<Jewelry> getAllJeweries(Pageable pageable);
+
+    Page<Jewelry> getJewelriesInWaitList(Pageable pageable);
+
+    Page<Jewelry> getJewelriesInHandOver(Pageable pageable);
+
+    Page<Jewelry> getJewelriesByUsername(String username, Pageable pageable);
+
 }
